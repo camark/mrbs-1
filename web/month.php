@@ -93,11 +93,13 @@ if (!$display_calendar_bottom)
 
 echo "</div>\n";
 
+echo "<hr>";
 
 // Don't continue if this room is invalid, which could be because the area
 // has no rooms, or else the room or area has been disabled
 if ($room_invalid)
 {
+  echo "<hr>";
   echo "<h1>".get_vocab("no_rooms_for_area")."</h1>";
   output_trailer();
   exit;
@@ -140,27 +142,35 @@ while (!checkdate($cm, $cd, $cy) && ($cd > 1))
   $cd--;
 }
 
+$monthbefore = get_vocab("monthbefore");
+$gotothismonth = get_vocab("gotothismonth");
+$monthafter = get_vocab("monthafter");
+$before_after_links_html = <<<EOF
 
-$before_after_links_html = "<div class=\"screenonly\">
-  <div class=\"date_nav\">
-    <div class=\"date_before\">
-      <a href=\"month.php?year=$yy&amp;month=$ym&amp;day=$yd&amp;area=$area&amp;room=$room\">
-          &lt;&lt;&nbsp;".get_vocab("monthbefore")."
+"<div class="screenonly">
+  <div class="date_nav">
+  <nav>
+   <ul class="pager">
+   <li class=" date_before">
+      <a class="btn btn-success" href="month.php?year={$yy}&amp;month={$ym}&amp;day={$yd}&amp;area={$area}&amp;room={$room}">
+          <span aria-hidden="true">&larr;</span> {$monthbefore}
         </a>
-    </div>
-    <div class=\"date_now\">
-      <a href=\"month.php?year=$cy&amp;month=$cm&amp;day=$cd&amp;area=$area&amp;room=$room\">
-          ".get_vocab("gotothismonth")."
+    </li>
+    <li class="date_now">
+      <a  class="button btn btn-success" href="month.php?year=$cy&amp;month=$cm&amp;day=$cd&amp;area=$area&amp;room=$room">
+          {$gotothismonth}
         </a>
-    </div>
-    <div class=\"date_after\">
-       <a href=\"month.php?year=$ty&amp;month=$tm&amp;day=$td&amp;area=$area&amp;room=$room\">
-          ".get_vocab("monthafter")."&nbsp;&gt;&gt;
+    </li>
+    <li class="date_after ">
+       <a class="button btn btn-success" href="month.php?year=$ty&amp;month=$tm&amp;day=$td&amp;area=$area&amp;room=$room">
+         {$monthafter}&nbsp;&gt;&gt;
         </a>
-    </div>
+    </li>
+  </nav>
   </div>
 </div>
-";
+EOF;
+
 
 print $before_after_links_html;
 

@@ -1,39 +1,39 @@
 <?php
 /*****************************************************************************\
-*                                                                            *
-*   File name     edit_users.php                                             *
-*                                                                            *
-*   Description   Edit the user database                                     *
-*                                                                            *
-*   Notes         Automatically creates the database if it's not present.    *
-*                                                                            *
-*                 Designed to be easily extensible:                          *
-*                 Adding more fields for each user does not require          *
-*                 modifying the editor code. Only to add the fields in       *
-*                 the database creation code.                                *
-*                                                                            *
-*                 An admin rights model is used where the level (an          *
-*                 integer between 0 and $max_level) denotes rights:          *
-*                      0:  no rights                                         *
-*                      1:  an ordinary user                                  *
-*                      2+: admins, with increasing rights.   Designed to     *
-*                          allow more granularity of admin rights, for       *
-*                          example by having booking admins, user admins     *
-*                          snd system admins.  (System admins might be       *
-*                          necessary in the future if, for example, some     *
-*                          parameters currently in the config file are      *
-*                          made editable from MRBS)                          *
-*                                                                            *
-*                 Only admins with at least user editing rights (level >=    *
-*                 $min_user_editing_level) can edit other users, and they    *
-*                 cannot edit users with a higher level than themselves      *
-*                                                                            *
-*                 To do:                                                     *
-*                     - Localisability                                       *
-*                                                                            *
-*   History                                                                  *
-*                 2003/12/29 JFL Created this file                           *
-*                                                                            *
+ *                                                                            *
+ *   File name     edit_users.php                                             *
+ *                                                                            *
+ *   Description   Edit the user database                                     *
+ *                                                                            *
+ *   Notes         Automatically creates the database if it's not present.    *
+ *                                                                            *
+ *                 Designed to be easily extensible:                          *
+ *                 Adding more fields for each user does not require          *
+ *                 modifying the editor code. Only to add the fields in       *
+ *                 the database creation code.                                *
+ *                                                                            *
+ *                 An admin rights model is used where the level (an          *
+ *                 integer between 0 and $max_level) denotes rights:          *
+ *                      0:  no rights                                         *
+ *                      1:  an ordinary user                                  *
+ *                      2+: admins, with increasing rights.   Designed to     *
+ *                          allow more granularity of admin rights, for       *
+ *                          example by having booking admins, user admins     *
+ *                          snd system admins.  (System admins might be       *
+ *                          necessary in the future if, for example, some     *
+ *                          parameters currently in the config file are      *
+ *                          made editable from MRBS)                          *
+ *                                                                            *
+ *                 Only admins with at least user editing rights (level >=    *
+ *                 $min_user_editing_level) can edit other users, and they    *
+ *                 cannot edit users with a higher level than themselves      *
+ *                                                                            *
+ *                 To do:                                                     *
+ *                     - Localisability                                       *
+ *                                                                            *
+ *   History                                                                  *
+ *                 2003/12/29 JFL Created this file                           *
+ *                                                                            *
 \*****************************************************************************/
 
 // $Id: edit_users.php 2827 2014-03-17 15:55:24Z cimorrison $
@@ -63,16 +63,16 @@ $datatable = get_form_var('datatable', 'int');  // Will only be set if we're usi
 function validate_password($password)
 {
   global $pwd_policy;
-          
+
   if (isset($pwd_policy))
   {
     // Set up regular expressions.  Use p{Ll} instead of [a-z] etc.
     // to make sure accented characters are included
     $pattern = array('alpha'   => '/\p{L}/',
-                     'lower'   => '/\p{Ll}/',
-                     'upper'   => '/\p{Lu}/',
-                     'numeric' => '/\p{N}/',
-                     'special' => '/[^\p{L}|\p{N}]/');
+        'lower'   => '/\p{Ll}/',
+        'upper'   => '/\p{Lu}/',
+        'numeric' => '/\p{N}/',
+        'special' => '/[^\p{L}|\p{N}]/');
     // Check for conformance to each rule                 
     foreach($pwd_policy as $rule => $value)
     {
@@ -97,7 +97,7 @@ function validate_password($password)
       }
     }
   }
-  
+
   // Everything is OK
   return TRUE;
 }
@@ -136,9 +136,9 @@ function output_row(&$row)
   global $level, $min_user_editing_level, $user;
   global $fields, $ignore_columns, $select_options;
   global $PHP_SELF;
-  
+
   $values = array();
-  
+
   // First column, which is the name
   $html_name = htmlspecialchars($row['name']);
   // You can only edit a user if you have sufficient admin rights, or else if that user is yourself
@@ -151,7 +151,7 @@ function output_row(&$row)
   {
     $values[] = "<span class=\"normal\" title=\"$html_name\">$html_name</span>";
   }
-    
+
   // Other columns
   foreach ($fields as $field)
   {
@@ -166,7 +166,7 @@ function output_row(&$row)
           // the level field contains a code and we want to display a string
           // (but we put the code in a span for sorting)
           $values[] = "<span title=\"$col_value\"></span>" .
-                      "<div class=\"string\">" . get_vocab("level_$col_value") . "</div>";
+              "<div class=\"string\">" . get_vocab("level_$col_value") . "</div>";
           break;
         case 'email':
           // we don't want to truncate the email address
@@ -188,7 +188,7 @@ function output_row(&$row)
             }
             $values[] = "<div class=\"string\">" . htmlspecialchars($col_value) . "</div>";
           }
-          elseif (($field['nature'] == 'boolean') || 
+          elseif (($field['nature'] == 'boolean') ||
               (($field['nature'] == 'integer') && isset($field['length']) && ($field['length'] <= 2)) )
           {
             // booleans: represent by a checkmark
@@ -201,9 +201,9 @@ function output_row(&$row)
           }
           else
           {
-             // strings
+            // strings
             $values[] = "<div class=\"string\" title=\"" . htmlspecialchars($col_value) . "\">" .
-                        htmlspecialchars($col_value) . "</div>";
+                htmlspecialchars($col_value) . "</div>";
           }
           break;
       }  // end switch
@@ -250,7 +250,7 @@ if ($nusers > 0)
   // Check the user is authorised for this page
   checkAuthorised();
 }
-else 
+else
 // We've just created the table.   Assume the person doing this IS an administrator
 // and then send them through to the screen to add the first user (which we'll force
 // to be an admin)
@@ -272,7 +272,7 @@ else
 
 if (isset($Action) && ( ($Action == "Edit") or ($Action == "Add") ))
 {
-  
+
   if ($Id >= 0) /* -1 for new users, or >=0 for existing ones */
   {
     // If it's an existing user then get the data from the database
@@ -303,17 +303,18 @@ if (isset($Action) && ( ($Action == "Edit") or ($Action == "Add") ))
   }
 
   print_header(0, 0, 0, 0, "");
-  
+
   if ($initial_user_creation == 1)
   {
     print "<h3>" . get_vocab("no_users_initial") . "</h3>\n";
     print "<p>" . get_vocab("no_users_create_first_admin") . "</p>\n";
   }
-  
-  print "<div id=\"form_container\">";
-  print "<form id=\"form_edit_users\" method=\"post\" action=\"" . htmlspecialchars(basename($PHP_SELF)). "\">\n";
-    ?>
-        <fieldset class="admin">
+  ?>
+  <div id="form_container">
+
+    <form id="form_edit_users" class="form-horizontal" method="post" action=" <?php echo htmlspecialchars(basename($PHP_SELF));?>">
+
+      <fieldset class="admin">
         <legend><?php echo (($Action == "Edit") ? get_vocab("edit_user") : get_vocab("add_new_user"));?></legend>
         <div id="edit_users_input_container">
           <?php
@@ -328,13 +329,13 @@ if (isset($Action) && ( ($Action == "Edit") or ($Action == "Add") ))
           {
             $editing_last_admin = FALSE;
           }
-          
+
           foreach ($fields as $field)
           {
             $key = $field['name'];
             $params = array('label' => get_loc_field_name($tbl_users, $key) . ':',
-                            'name'  => VAR_PREFIX . $key,
-                            'value' => $data[$key]);
+                'name'  => VAR_PREFIX . $key,
+                'value' => $data[$key]);
             if (isset($maxlength["users.$key"]))
             {
               $params['maxlength'] = $maxlength["users.$key"];
@@ -350,7 +351,7 @@ if (isset($Action) && ( ($Action == "Edit") or ($Action == "Add") ))
                 echo "<input type=\"hidden\" name=\"" . $params['name'] ."\" value=\"". htmlspecialchars($params['value']) . "\">\n";
                 break;
               default:
-                echo "<div>\n";
+                echo "<div class='form-group'>\n";
                 switch($key)
                 {
                   case 'level':
@@ -361,7 +362,7 @@ if (isset($Action) && ( ($Action == "Edit") or ($Action == "Add") ))
                     // Only display options up to and including one's own level (you can't upgrade yourself).
                     // If you're not some kind of admin then the select will also be disabled.
                     // (Note - disabling individual options doesn't work in older browsers, eg IE6)
-                    $params['options'] = array();     
+                    $params['options'] = array();
                     for ($i=0; $i<=$level; $i++)
                     {
                       $params['options'][$i] = get_vocab("level_$i");
@@ -370,8 +371,8 @@ if (isset($Action) && ( ($Action == "Edit") or ($Action == "Add") ))
                       //   if we're adding the very first entry, then it should be an admin;
                       //   if we're adding a subsequent entry, then it should be an ordinary user;
                       if ( (($Action == "Edit")  && ($i == $data[$key])) ||
-                           (($Action == "Add") && $initial_user_creation && ($i == $max_level)) ||
-                           (($Action == "Add") && !$initial_user_creation && ($i == 1)) )
+                          (($Action == "Add") && $initial_user_creation && ($i == $max_level)) ||
+                          (($Action == "Add") && !$initial_user_creation && ($i == 1)) )
                       {
                         $params['value'] = $i;
                       }
@@ -382,32 +383,32 @@ if (isset($Action) && ( ($Action == "Edit") or ($Action == "Add") ))
 
                   case 'email':
                     $params['type'] = 'email';
-                      $params['mandatory'] = TRUE;
-                      $params['attributes'] = 'multiple';
+                    $params['mandatory'] = TRUE;
+                    $params['attributes'] = 'multiple';
                     generate_input($params);
                     break;
-                    case 'name':
-                        // you cannot change a username (even your own) unless you have user editing rights
-                        $params['disabled'] = ($level < $min_user_editing_level);
-                        $params['mandatory'] = TRUE;
-                        generate_input($params);
-                        break;
+                  case 'name':
+                    // you cannot change a username (even your own) unless you have user editing rights
+                    $params['disabled'] = ($level < $min_user_editing_level);
+                    $params['mandatory'] = TRUE;
+                    generate_input($params);
+                    break;
 
-                    case 'fname':
-                        // you cannot change a username (even your own) unless you have user editing rights
-                        $params['disabled'] = ($level < $min_user_editing_level);
-                        generate_input($params);
-                        break;
-                    case 'lname':
-                        // you cannot change a username (even your own) unless you have user editing rights
-                        $params['disabled'] = ($level < $min_user_editing_level);
-                        generate_input($params);
-                        break;
+                  case 'fname':
+                    // you cannot change a username (even your own) unless you have user editing rights
+                    $params['disabled'] = ($level < $min_user_editing_level);
+                    generate_input($params);
+                    break;
+                  case 'lname':
+                    // you cannot change a username (even your own) unless you have user editing rights
+                    $params['disabled'] = ($level < $min_user_editing_level);
+                    generate_input($params);
+                    break;
 
                   default:
                     // Output a checkbox if it's a boolean or integer <= 2 bytes (which we will
                     // assume are intended to be booleans)
-                    if (($field['nature'] == 'boolean') || 
+                    if (($field['nature'] == 'boolean') ||
                         (($field['nature'] == 'integer') && isset($field['length']) && ($field['length'] <= 2)) )
                     {
                       generate_checkbox($params);
@@ -417,7 +418,7 @@ if (isset($Action) && ( ($Action == "Edit") or ($Action == "Add") ))
                     elseif (($field['nature'] == 'character') && isset($field['length']) && ($field['length'] > $text_input_max))
                     {
                       $params['attributes'] = array('rows="8"', 'cols="40"');
-                      generate_textarea($params);   
+                      generate_textarea($params);
                     }
                     // Otherwise output a text input
                     else
@@ -429,8 +430,8 @@ if (isset($Action) && ( ($Action == "Edit") or ($Action == "Add") ))
                 } // end switch
                 echo "</div>\n";
             } // end switch
-            
-            
+
+
             // Then output any error messages associated with the field
             // except for the password field which is a special case
             switch($key)
@@ -452,76 +453,98 @@ if (isset($Action) && ( ($Action == "Edit") or ($Action == "Add") ))
                 }
                 break;
             }
-                     
+
           } // end foreach
-      
-          print "<div><p>" . get_vocab("password_twice") . "...</p></div>\n";
+
+          print "<div class='col-md-offset-2'><p>" . get_vocab("password_twice") . "...</p></div>\n";
 
           for ($i=0; $i<2; $i++)
           {
-            print "<div>\n";
-            print "<label for=\"password$i\">" . get_vocab("users.password") . ":</label>\n";
-            print "<input type=\"password\" id=\"password$i\" name=\"password$i\" value=\"\">\n";
-            print "</div>\n";
+            print "<div class='form-group'>\n";
+            print "<label class='col-md-2 control-label' for=\"password$i\">" . get_vocab("users.password") . ":</label>\n";
+            print "<div class='col-md-10'>";
+            print "<input class='form-control' type=\"password\" id=\"password$i\" name=\"password$i\" value=\"\">\n";
+            print "</div></div>\n";
           }
-          
+
           // Now do any password error messages
-          if (!empty($pwd_not_match))
-          {
-            echo "<p class=\"error\">" . get_vocab("passwords_not_eq") . "</p>\n";
-          }
-          if (!empty($pwd_invalid))
-          {
-            echo "<p class=\"error\">" . get_vocab("password_invalid") . "</p>\n";
-            if (isset($pwd_policy))
-            {
-              echo "<ul class=\"error\">\n";
-              foreach ($pwd_policy as $rule => $value)
-              {
-                echo "<li>$value " . get_vocab("policy_" . $rule) . "</li>\n";
+          if(!empty($pwd_not_match) || !empty($pwd_invalid)) {
+          ?>
+            <div class="alert alert-danger">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <strong>Error:</strong> Alert body ...
+                <?php
+                if (!empty($pwd_not_match))
+                {
+                  echo "<p class=\"error\">" . get_vocab("passwords_not_eq") . "</p>\n";
+                }
+                if (!empty($pwd_invalid))
+                {
+                  echo "<p class=\"error\">" . get_vocab("password_invalid") . "</p>\n";
+                  if (isset($pwd_policy))
+                  {
+                    echo "<ul class=\"error\">\n";
+                    foreach ($pwd_policy as $rule => $value)
+                    {
+                      echo "<li>$value " . get_vocab("policy_" . $rule) . "</li>\n";
+                    }
+                    echo "</ul>\n";
+                  }
+                }
+                ?>
+            </div>
+          <?php
               }
-              echo "</ul>\n";
-            }
-          }
-          
+
           if ($editing_last_admin)
           {
             echo "<p><em>(" . get_vocab("warning_last_admin") . ")</em></p>\n";
           }
           ?>
-          <input type="hidden" name="Action" value="Update">    
-          <input class="submit default_action" type="submit" value="<?php echo(get_vocab("save")); ?>">
-          
+          <input type="hidden" name="Action" value="Update">
+          <div class="form-group text-center">
+          <div class="btn-group text-center">
+            <input class="submit default_action btn btn-primary" type="submit" value="<?php echo(get_vocab("save")); ?>">
+          </div>
+          </div>
         </div>
-        </fieldset>
+      </fieldset>
+    </form>
+    <br>
+    <?php
+    /* Administrators get the right to delete users, but only those at the same level as them or lower */
+    if (($Id >= 0) && ($level >= $min_user_editing_level) && ($level >= $data['level']))
+    {
+      ?>
+      <form id="form_delete_users" method="post" action="<?php echo htmlspecialchars(basename($PHP_SELF));?>">
+        <input type="hidden" name="Action" value="Delete">
+        <input type="hidden" name="Id" value="<?php echo $Id;?>">
+    ?>
+      <div class='form-group text-center'>
+        <div class='btn-group'>
+          <input class="btn btn-danger submit" type="submit"<?php echo (($editing_last_admin) ? "disabled=\"disabled\"" : "");?>
+          value="<?php echo  get_vocab("delete_user");?>">
+        </div>
+      </div>
       </form>
       <?php
-      /* Administrators get the right to delete users, but only those at the same level as them or lower */
-      if (($Id >= 0) && ($level >= $min_user_editing_level) && ($level >= $data['level'])) 
-      {
-        echo "<form id=\"form_delete_users\" method=\"post\" action=\"" . htmlspecialchars(basename($PHP_SELF)) . "\">\n";
-        echo "<div>\n";
-        echo "<input type=\"hidden\" name=\"Action\" value=\"Delete\">\n";
-        echo "<input type=\"hidden\" name=\"Id\" value=\"$Id\">\n";
-        echo "<input class=\"submit\" type=\"submit\" " . 
-              (($editing_last_admin) ? "disabled=\"disabled\"" : "") .
-              "value=\"" . get_vocab("delete_user") . "\">\n";
-        echo "</div>\n";
-        echo "</form>\n";
-      }
-      // otherwise (ie when adding, or else editing when not an admin) give them a cancel button
-      // which takes them back to the user list and does nothing
-      else
-      {
-        echo "<form id=\"form_delete_users\" method=\"post\" action=\"" . htmlspecialchars(basename($PHP_SELF)) . "\">\n";
-        echo "<div>\n";
-        echo "<input class=\"submit\" type=\"submit\" value=\"" . get_vocab("back") . "\">\n";
-        echo "</div>\n";
-        echo "</form>\n";
-      }
-?>
-      </div>
-<?php
+    }
+    // otherwise (ie when adding, or else editing when not an admin) give them a cancel button
+    // which takes them back to the user list and does nothing
+    else
+    {
+      echo "<form id=\"form_delete_users\" method=\"post\" action=\"" . htmlspecialchars(basename($PHP_SELF)) . "\">\n";
+     ?>
+      <div class='form-group text-center'>
+      <div class='btn-group'>
+     <?php
+      echo "<input class=\"btn btn-danger submit\" type=\"submit\" value=\"" . get_vocab("back") . "\">\n";
+      echo "</div></div>\n";
+      echo "</form>\n";
+    }
+    ?>
+  </div>
+  <?php
 
   // Print footer and exit
   output_trailer();
@@ -541,7 +564,7 @@ if (isset($Action) && ($Action == "Update"))
     Header("Location: edit_users.php");
     exit;
   }
-  
+
   // otherwise go ahead and update the database
   else
   {
@@ -556,7 +579,7 @@ if (isset($Action) && ($Action == "Update"))
         // id: don't need to do anything except add the id to the query string;
         // the field itself is auto-incremented
         $q_string .= "&Id=$Id";
-        continue; 
+        continue;
       }
       // first, get all the other form variables and put them into an array, $values, which 
       // we will use for entering into the database assuming we pass validation
@@ -678,17 +701,17 @@ if (isset($Action) && ($Action == "Update"))
     // string, which by now has both the error codes and the original
     // form values 
     if (!$valid_data)
-    { 
+    {
       Header("Location: edit_users.php?$q_string");
       exit;
     }
 
-    
+
     // If we got here, then we've passed validation and we need to
     // enter the data into the database
-    
+
     $sql_fields = array();
-  
+
     // For each db column get the value ready for the database
     foreach ($fields as $field)
     {
@@ -712,22 +735,22 @@ if (isset($Action) && ($Action == "Update"))
             $value = "'" . sql_escape($value) . "'";
             break;
         }
-       
+
         /* If we got here, we have a valid, sql-ified value for this field,
          * so save it for later */
         $sql_fields[$fieldname] = $value;
-      }                   
+      }
     } /* end for each column of user database */
-  
+
     /* Now generate the SQL operation based on the given array of fields */
     if ($Id >= 0)
     {
       /* if the Id exists - then we are editing an existing user, rather th
        * creating a new one */
-  
+
       $assign_array = array();
       $operation = "UPDATE $tbl_users SET ";
-  
+
       foreach ($sql_fields as $fieldname => $value)
       {
         array_push($assign_array, sql_quote($fieldname) . "=$value");
@@ -737,10 +760,10 @@ if (isset($Action) && ($Action == "Update"))
     else
     {
       /* The id field doesn't exist, so we're adding a new user */
-  
+
       $fields_list = array();
       $values_list = array();
-  
+
       foreach ($sql_fields as $fieldname => $value)
       {
         array_push($fields_list,$fieldname);
@@ -749,10 +772,10 @@ if (isset($Action) && ($Action == "Update"))
 
       $fields_list = array_map('sql_quote', $fields_list);
       $operation = "INSERT INTO $tbl_users " .
-        "(". implode(",", $fields_list) . ")" .
-        " VALUES " . "(" . implode(",", $values_list) . ");";
+          "(". implode(",", $fields_list) . ")" .
+          " VALUES " . "(" . implode(",", $values_list) . ");";
     }
-  
+
     /* DEBUG lines - check the actual sql statement going into the db */
     //echo "Final SQL string: <code>" . htmlspecialchars($operation) . "</code>";
     //exit;
@@ -763,9 +786,9 @@ if (isset($Action) && ($Action == "Update"))
       // function can contain SQL queries and so reset the error message.
       trigger_error(sql_error(), E_USER_WARNING);
       print_header(0, 0, 0, "", "");
-  
+
       // This is unlikely to happen in normal operation. Do not translate.
-       
+
       print "<form class=\"edit_users_error\" method=\"post\" action=\"" . htmlspecialchars(basename($PHP_SELF)) . "\">\n";
       print "  <fieldset>\n";
       print "  <legend></legend>\n";
@@ -773,11 +796,11 @@ if (isset($Action) && ($Action == "Update"))
       print "    <input type=\"submit\" value=\" " . get_vocab("ok") . " \">\n";
       print "  </fieldset>\n";
       print "</form>\n";
-  
+
       // Print footer and exit
       print_footer(TRUE);
     }
-  
+
     /* Success. Redirect to the user list, to remove the form args */
     Header("Location: edit_users.php");
   }
@@ -808,7 +831,7 @@ if (isset($Action) && ($Action == "Delete"))
     print_header(0, 0, 0, "", "");
 
     // This is unlikely to happen in normal  operation. Do not translate.
-    
+
     print "<form class=\"edit_users_error\" method=\"post\" action=\"" . htmlspecialchars(basename($PHP_SELF)) . "\">\n";
     print "  <fieldset>\n";
     print "  <legend></legend>\n";
@@ -853,27 +876,27 @@ if ($initial_user_creation != 1)   // don't print the user table if there are no
 {
   // Get the user information
   $res = sql_query("SELECT * FROM $tbl_users ORDER BY level DESC, name");
-  
+
   // Display the data in a table
   $ignore_columns = array('id', 'password', 'name'); // We don't display these columns or they get special treatment
-  
+
   if (!$ajax)
   {
     echo "<div id=\"user_list\" class=\"datatable_container\">\n";
     echo "<table class=\"admin_table display\" id=\"users_table\">\n";
-  
+
     // The table header
     echo "<thead>\n";
     echo "<tr>";
-  
+
     // First column which is the name
     echo "<th>" . get_vocab("users.name") . "</th>\n";
-  
+
     // Other column headers
     foreach ($fields as $field)
     {
       $fieldname = $field['name'];
-    
+
       if (!in_array($fieldname, $ignore_columns))
       {
         $heading = get_loc_field_name($tbl_users, $fieldname);
@@ -889,14 +912,15 @@ if ($initial_user_creation != 1)   // don't print the user table if there are no
         echo "<th>$heading</th>";
       }
     }
-  
+
     echo "</tr>\n";
     echo "</thead>\n";
-  
+
     // The table body
     echo "<tbody>\n";
   }
-  
+  ?>
+<?php
   // If we're Ajax capable and this is not an Ajax request then don't output
   // the table body, because that's going to be sent later in response to
   // an Ajax request
@@ -914,15 +938,15 @@ if ($initial_user_creation != 1)   // don't print the user table if there are no
       }
     }
   }
-  
+
   if (!$ajax)
   {
     echo "</tbody>\n";
-  
+
     echo "</table>\n";
     echo "</div>\n";
   }
-  
+
 }   // ($initial_user_creation != 1)
 
 if ($ajax)
@@ -931,6 +955,10 @@ if ($ajax)
 }
 else
 {
+  ?>
+        </div>
+
+<?php
   output_trailer();
 }
 

@@ -515,11 +515,11 @@ function generate_checkbox($params)
     if (!is_array($params['class'])) {
         $params['class'] = array($params['class']);
     }
-    $params['class'][] = 'checkbox';
+    //$params['class'][] = 'checkbox';
 
     // generate the HTML
     // no HTML escaping for the label - it is trusted
-    $html = "<label for=\"" . $params['id'] . "\"";
+    $html = "<label class='control-label' for=\"" . $params['id'] . "\"";
     $html .= ($params['label_after']) ? ' class="secondary"' : '';
     $html .= ">";
     if (!$params['label_after']) {
@@ -605,10 +605,19 @@ function generate_simple_input($params)
     $html = '';
     if (isset($params['label'])) {
         // no HTML escaping for the label - it is trusted
-        $html .= "<label for=\"" . $params['name'] . "\"";
+        $html .= "<label class='col-sm-2 control-label' for=\"" . $params['name'] . "\"";
         $html .= (empty($params['label_title'])) ? '' : ' title="' . htmlspecialchars($params['label_title']) . '"';
         $html .= ">" . $params['label'] . "</label>\n";
+        $html .="<div class='col-md-10'>\n";
     }
+    elseif(!empty($params['inputWidthCol'])) {
+        $html .= "<div class='".$params['inputWidthCol']."'>\n";
+    }
+/*    else{
+        echo $params['inputWidthCol'];
+        $html .="<div class='col-md-12'>\n";
+    }*/
+
     $html .= "<input";
     $html .= (isset($params['type'])) ? " type=\"" . $params['type'] . "\"" : "";
     $html .= (isset($params['step'])) ? " step=\"" . $params['step'] . "\"" : "";
@@ -628,11 +637,11 @@ function generate_simple_input($params)
         $html .= " value=\"" . htmlspecialchars($params['value']) . "\"";
     }
 
-    $html .= " class='form-control input-sm'>";
+    $html .= " class='form-control'>";
     if (isset($params['suffix'])) {
         $html .= "<span>" . $params['suffix'] . "</span>";
     }
-    $html .= "\n";
+    $html .= "</div>\n";
     // and a hidden input if the input box is disabled
     if ($params['disabled'] && $params['create_hidden']) {
         $html .= "<input type=\"hidden\" name=\"" . $params['name'] . "\" value=\"" .
@@ -728,7 +737,9 @@ function generate_radio($params)
     $option = each($params['options']);
     // generate the HTML
     // no HTML escaping for the label - it is trusted
-    $html = "<label class=\"radio\">";
+    $html ='<div class="radio">'."\n";
+
+    $html .= "<label class=\"\">";
     $html .= "<input class=\"radio\" type=\"radio\" name=\"" . $params['name'] . "\" value=\"" . htmlspecialchars($option['key']) . "\"";
     $html .= ($params['value'] == $option['key']) ? " checked=\"checked\"" : "";
     $html .= ($params['disabled']) ? " disabled=\"disabled\"" : "";
@@ -740,6 +751,7 @@ function generate_radio($params)
     if ($params['disabled'] && $params['create_hidden'] && ($params['value'] == $option['key'])) {
         $html .= "<input type=\"hidden\" value=\"" . htmlspecialchars($option['key']) . "\" name=\"" . $params['name'] . "\">\n";
     }
+    $html .='</div>'."\n";
     echo $html;
 }
 
@@ -807,12 +819,11 @@ function generate_radio_group($params)
     }
     // generate the HTML
     // no HTML escaping for the label - it is trusted
-    $html = "<label";
+    $html = "<label class='col-md-2 control-label'";
     $html .= (empty($params['label_title'])) ? '' : ' title="' . htmlspecialchars($params['label_title']) . '"';
     $html .= ">" . $params['label'] . "</label>\n";
-    $html .= "<div class=\"group\">\n";
+    $html .= "<div class=\"group col-sm-10\">\n";
     echo $html;
-
     // Output each radio button
     while ($option = each($params['options'])) {
         // We can cope with both associative and ordinary arrays
@@ -1016,11 +1027,12 @@ function generate_select($params)
     // no HTML escaping for the label - it is trusted
     $html = '';
     if (isset($params['label'])) {
-        $html .= "<label for=\"" . $params['id'] . "\"";
+        $html .= "<label class='col-sm-2 control-label' for=\"" . $params['id'] . "\"";
         $html .= (empty($params['label_title'])) ? '' : ' title="' . htmlspecialchars($params['label_title']) . '"';
         $html .= ">" . $params['label'] . "</label>\n";
     }
-    $html .= "<select id=\"" . $params['id'] . "\" name=\"" . $params['name'] . "\"";
+    $html .='<div class="col-sm-10">'."\n";
+    $html .= "<select class='form-control' id=\"" . $params['id'] . "\" name=\"" . $params['name'] . "\"";
     $html .= ($params['disabled']) ? " disabled=\"disabled\"" : "";
     $html .= ($params['mandatory']) ? " required aria-required=\"true\"" : "";
     $html .= ($params['multiple']) ? " multiple" : "";
@@ -1038,6 +1050,7 @@ function generate_select($params)
     }
 
     $html .= "</select>\n";
+    $html .= '</div>'."\n";
 
     // and hidden inputs if the select box is disabled
     if ($params['disabled'] && $params['create_hidden']) {
@@ -1126,10 +1139,12 @@ function generate_datalist($params)
     // no HTML escaping for the label - it is trusted
     $html = '';
     if (isset($params['label'])) {
-        $html .= "<label for=\"" . $params['id'] . "\"";
+        $html .= "<label class='control-label col-md-2' for=\"" . $params['id'] . "\"";
         $html .= (empty($params['label_title'])) ? '' : ' title="' . htmlspecialchars($params['label_title']) . '"';
         $html .= ">" . $params['label'] . "</label>\n";
+        $html .='<div class="col-sm-10">';
     }
+
     $html .= "<input id=\"" . $params['id'] . "\" name=\"" . $params['name'] . "\"";
     $html .= " list=\"" . $params['id'] . "_options\"";
     $html .= " value=\"" . $params['value'] . "\"";
@@ -1164,7 +1179,9 @@ function generate_datalist($params)
     }
     $html .= "</select>\n";
     $html .= "</datalist>\n";
-
+    if (isset($params['label'])) {
+        $html .="</div>";
+    }
     // and hidden inputs if the input is disabled
     if ($params['disabled'] && $params['create_hidden']) {
         $html .= "<input type=\"hidden\" name=\"" . $params['name'] . "\" value=\"" .
@@ -1226,21 +1243,24 @@ function generate_textarea($params)
 
     // generate the HTML
     // no HTML escaping for the label - it is trusted
-    $html = "<label for=\"" . $params['name'] . "\"";
+    $html = "<label class='col-md-2 control-label' for=\"" . $params['name'] . "\"";
     $html .= (empty($params['label_title'])) ? '' : ' title="' . htmlspecialchars($params['label_title']) . '"';
     $html .= ">" . $params['label'] . "</label>\n";
     // textarea rows and cols are overridden by CSS height and width
-    $html .= "<textarea id=\"" . $params['name'] . "\" name=\"" . $params['name'] . "\"";
+    $html .='<div class="col-md-10">';
+    $html .= "<textarea class='form-control' id=\"" . $params['name'] . "\" name=\"" . $params['name'] . "\"";
     $html .= (isset($params['attributes'])) ? " " . $params['attributes'] : "";
     $html .= ($params['disabled']) ? " disabled=\"disabled\"" : '';
     $html .= ($params['mandatory']) ? " required aria-required=\"true\"" : '';
     $html .= (isset($params['maxlength'])) ? " maxlength=\"" . $params['maxlength'] . "\"" : '';
     $html .= ">" . htmlspecialchars($params['value']) . "</textarea>\n";
+
     // and a hidden input if the textarea is disabled
     if ($params['disabled'] && $params['create_hidden']) {
         $html .= "<input type=\"hidden\" name=\"" . $params['name'] . "\" value=\"" .
             htmlspecialchars($params['value']) . "\">\n";
     }
+    $html .='</div>';
     echo $html;
 }
 
@@ -1858,7 +1878,7 @@ function make_area_select_html($link, $current, $year, $month, $day)
     // there's no point
     if ($res && (sql_count($res) > 1)) {
         $out_html .= "<div id=\"dwm_areas\">\n";
-        $out_html .= "<h3>" . get_vocab("areas") . "</h3>\n";
+        $out_html .= "<h3 class='area-title'>" . get_vocab("areas") . "</h3>\n";
         if ($area_list_format == "select") {
             $out_html .= "<form id=\"areaChangeForm\" method=\"get\" action=\"$link\">\n" .
                 "<div>\n" .
@@ -1877,9 +1897,9 @@ function make_area_select_html($link, $current, $year, $month, $day)
                 "</form>\n";
         } else // list format
         {
-            $out_html .= "<ul>\n";
+            $out_html .= "<ul class='list-group'>\n";
             for ($i = 0; ($row = sql_row_keyed($res, $i)); $i++) {
-                $out_html .= "<li><a href=\"$link?year=$year&amp;month=$month&amp;day=$day&amp;area=${row['id']}\">";
+                $out_html .= "<li class='list-group-item'><i class='fa fa-road fa-fw  fa-2x'></i> <a class='' href=\"$link?year=$year&amp;month=$month&amp;day=$day&amp;area=${row['id']}\">";
                 $out_html .= "<span" . (($row['id'] == $current) ? ' class="current"' : '') . ">";
                 $out_html .= htmlspecialchars($row['area_name']) . "</span></a></li>\n";
             }
@@ -1929,9 +1949,9 @@ function make_room_select_html($link, $area, $current, $year, $month, $day)
                 "</form>\n";
         } else  // list format
         {
-            $out_html .= "<ul>\n";
+            $out_html .= "<ul class='list-group'>\n";
             for ($i = 0; ($row = sql_row_keyed($res, $i)); $i++) {
-                $out_html .= "<li><a href=\"$link?year=$year&amp;month=$month&amp;day=$day&amp;area=$area&amp;room=" . $row['id'] . "\" title=\"" . htmlspecialchars($row['description']) . "\">";
+                $out_html .= "<li class='list-group-item'><i class='fa fa-users fa-2x'></i> <a href=\"$link?year=$year&amp;month=$month&amp;day=$day&amp;area=$area&amp;room=" . $row['id'] . "\" title=\"" . htmlspecialchars($row['description']) . "\">";
                 $out_html .= "<span" . (($row['id'] == $current) ? ' class="current"' : '') . ">";
                 $out_html .= htmlspecialchars($row['room_name']) . "</span></a></li>\n";
             }

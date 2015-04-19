@@ -233,3 +233,9 @@ init = function() {
     });
 };
 
+$(function() {
+    $('input.time_hour').timepicker({
+        'timeFormat': 'H:i' ,
+        'show2400': 'true'
+    });
+});

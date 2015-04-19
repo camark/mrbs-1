@@ -21,13 +21,13 @@ expires_header(60*30); // 30 minute expiry
 
 /* ------------ GENERAL -----------------------------*/
 
-body {font-size: small;
+/*body {font-size: small;
     margin: 0;
     padding: 0;
     color:            <?php echo $standard_font_color ?>;
     font-family:      <?php echo $standard_font_family ?>;
     background-color: <?php echo $body_background_color ?>}
-
+*/
 .current {color: <?php echo $highlight_font_color ?>}                        /* used to highlight the current item */
 .error   {color: <?php echo $highlight_font_color ?>; font-weight: bold}     /* for error messages */
 .warning {color: <?php echo $highlight_font_color ?>}                        /* for warning messages */
@@ -52,7 +52,7 @@ td, th {vertical-align: top}
 
 td form {margin: 0}     /* Prevent IE from displaying margins around forms in tables. */
 
-legend {font-weight: bold; font-size: large;
+/*legend {font-weight: bold; font-size: large;
     font-family: <?php echo $standard_font_family ?>;
     color: <?php echo $standard_font_color ?>}
 fieldset {margin: 0; padding: 0; border: 0; 
@@ -63,7 +63,7 @@ fieldset.admin {width: 100%; padding: 0 1.0em 1.0em 1.0em;
     border: 1px solid <?php echo $admin_table_border_color ?>}
 fieldset fieldset {position: relative; clear: left; width: 100%; padding: 0; border: 0; margin: 0}  /* inner fieldsets are invisible */
 fieldset fieldset legend {font-size: 0}        /* for IE: even if there is no legend text, IE allocates space  */
-  
+  */
 table.admin_table {border-spacing: 0px; border-collapse: collapse; border-color: <?php echo $admin_table_border_color ?>; border-style: solid;
     border-top-width: 0; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 0}
 .admin_table th, .admin_table td {vertical-align: middle; text-align: left;
@@ -165,11 +165,11 @@ $column_month = number_format($column_month, 1, '.', '');  // (%) tidy the numbe
 ?>
 div#dwm_header {width: 100%; float: left; margin-top: 1.0em; margin-bottom: 0.5em}
 div#dwm_areas, div#dwm_rooms  {float: left; margin-right: 2.0em}
-#dwm_header h3 {font-size: small; font-weight: normal; text-decoration: underline; 
+#dwm_header h3 {text-decoration: underline;
     margin-top: 0; margin-bottom: 0.5em; padding-bottom: 0}
-#dwm_header ul {list-style-type: none; padding-left: 0; margin-left: 0; margin-top: 0}
+/*#dwm_header ul {list-style-type: none; padding-left: 0; margin-left: 0; margin-top: 0}
 #dwm_header li {padding-left: 0; margin-left: 0}
-
+*/
 div#dwm {margin-bottom: 0.5em}
 #dwm {text-align: center}
 #dwm h2 {margin-bottom: 0}
@@ -475,8 +475,6 @@ span#del_no  {display:block; position: absolute; left: 50%; margin-left: 1em; fo
 .edit_area_room fieldset#time_settings {padding:0; margin: 0}
 span#private_display_caution {display: block; margin-top: 1em; font-style: italic; font-weight: normal}
 #book_ahead_periods_note span {display: block; float: left; width: 24em; margin: 0 0 1em 1em; font-style: italic}
-.edit_area_room .form_general textarea {height: 6em; width: 25em}
-.edit_area_room div#custom_html {margin-top: 8px}
 
 
 /* ------------ FORM_GENERAL ------------------------*/
@@ -534,15 +532,16 @@ $edit_area_room_form_min_width      = number_format($edit_area_room_form_min_wid
 
 
 ?>
-form.form_general {margin-top: 2.0em; width: 100%}
+/*form.form_general {margin-top: 2.0em; width: 100%}*/
 .edit_entry     form.form_general {min-width: <?php echo $edit_entry_form_min_width ?>em}
 .report         form.form_general {min-width: <?php echo $report_form_min_width ?>em}
 .search         form.form_general {min-width: <?php echo $search_form_min_width ?>em}
-.edit_area_room form.form_general {min-width: <?php echo $edit_area_room_form_min_width ?>em}
+/*.edit_area_room form.form_general {min-width: <?php echo $edit_area_room_form_min_width ?>em}*/
 form.form_general#logon       {min-width: <?php echo $logon_form_min_width ?>em}
 form.form_general#db_logon    {min-width: <?php echo $db_logon_form_min_width ?>em}
-form#edit_room {float: left; width: auto; margin: 0 2em 1em 1em}
+/*form#edit_room {float: left; width: auto; margin: 0 2em 1em 1em}*/
 
+/*
 .form_general div {float: left; clear: left; width: 100%}
 .form_general div div {float: none; clear: none; width: auto}
 .form_general div.group {float: left}
@@ -562,6 +561,7 @@ form#edit_room {float: left; width: auto; margin: 0 2em 1em 1em}
     text-align: right; padding-bottom: 0.8em; font-weight: bold;
 }
 
+*/
 .edit_entry     .form_general label {
     width: <?php echo $edit_entry_left_col_max_width ?>em;
     max-width: <?php echo $edit_entry_left_col_max_width ?>em;
@@ -570,7 +570,7 @@ form#edit_room {float: left; width: auto; margin: 0 2em 1em 1em}
 .import         .form_general label {max-width: <?php echo $import_left_col_max_width ?>em}
 .report         .form_general label {max-width: <?php echo $report_left_col_max_width ?>em}
 .search         .form_general label {max-width: <?php echo $search_left_col_max_width ?>em}
-.edit_area_room .form_general label {max-width: <?php echo $edit_area_room_left_col_max_width ?>em; width: <?php echo $edit_area_room_left_col_width ?>em}
+/*.edit_area_room .form_general label {max-width: <?php echo $edit_area_room_left_col_max_width ?>em; width: <?php echo $edit_area_room_left_col_width ?>em}*/
 #logon                    label {max-width: <?php echo $logon_left_col_max_width ?>em}
 #db_logon                 label {max-width: <?php echo $db_logon_left_col_max_width ?>em}
 
@@ -588,21 +588,22 @@ fieldset.rep_type_details fieldset {padding-top: 0}
 
 .rep_type_details label {text-align: left}
 
-.form_general input {
-    display: block; float: left; margin-left: <?php echo $general_gap ?>em; 
-    font-family: <?php echo $standard_font_family ?>; font-size: small
+/*.form_general input {
+display: block; float: left; margin-left: <?php echo $general_gap ?>em;
+font-family: <?php echo $standard_font_family ?>; font-size: small
 }
+*/
 .edit_entry     .form_general input {width: <?php echo $edit_entry_textarea_width ?>em; margin-right: 1em}
 .report         .form_general input {width: <?php echo $report_input_width ?>em}
 .search         .form_general input {width: <?php echo $search_input_width ?>em}
-.edit_area_room .form_general input {width: <?php echo $edit_area_room_input_width ?>em}
+/* {width: <?php echo $edit_area_room_input_width ?>em}*/
 #logon                    input {width: <?php echo $logon_input_width ?>em}
 #db_logon                 input {width: <?php echo $db_logon_input_width ?>em}
 .form_general .group      input {clear: none; width: auto}
 .form_general input.date {width: 6em}
 
 /* font family and size needs to be the same for input and textarea as their widths are defined in ems */
-.form_general textarea {
+/*.form_general textarea {
     display: block; float: left; 
     width: <?php echo $edit_entry_textarea_width ?>em; height: 11em; 
     margin-left: <?php echo $general_gap ?>em; margin-bottom: 0.5em;
@@ -629,14 +630,16 @@ div#edit_area_room_submit_save {float: left; clear: none; width: auto}
 div#edit_entry_submit_back {float: left; width: <?php echo $general_left_col_width ?>em; max-width: <?php echo $edit_entry_left_col_max_width ?>em}
 div#edit_entry_submit_save {float: left; clear: none; width: auto}
 #edit_entry_submit_back input {float: right}
+*/
 
-
+/*
 .form_general .div_dur_mins input{width: 4.0em}
 .form_general .div_time input {width: 2.0em}
 .form_general .div_time input.time_hour {text-align: right}
 .form_general .div_time input.time_minute {text-align: left; margin-left: 0}
 .form_general .div_time span + input {margin-left: 0}
 .form_general .div_time span {display: block; float: left; width: 0.5em; text-align: center}
+*/
 .form_general input#duration {width: 2.0em; text-align: right}
 .form_general select#dur_units {margin-right: 1.0em; margin-left: 0.5em}
 .form_general div#ad {float: left}
@@ -682,15 +685,17 @@ $edit_users_input_width      = '10.0';   // em
 // users by mistake.    Having it on the edit form at least means that you have to press two buttons to
 // delete a user (the Edit button followed by the Delete button)]
 ?>
-div#form_container {width: auto; position: relative; float: left}    /* this is the containing block against which the absolute positioning works */
-#form_container input.submit {width: auto; position: absolute; bottom: 2.0em}  /* bring both buttons up          */
-form#form_edit_users {width: auto; margin-top: 2.0em}
-#form_edit_users fieldset {float: left; width: auto}  
+/*
+div#form_container {width: auto; position: relative; float: left}   */ /* this is the containing block against which the absolute positioning works */
+/*#form_container input.submit {width: auto; position: absolute; bottom: 2.0em}*/  /* bring both buttons up          */
+/*form#form_edit_users {width: auto; margin-top: 2.0em}
+/*#form_edit_users fieldset {float: left; width: auto}
 #form_edit_users div {float: left; clear: left; width: auto}
-#form_edit_users div#edit_users_input_container {padding-bottom: 4.0em}    /* padding-bottom leaves room for the submit buttons. */
+#form_edit_users div#edit_users_input_container {padding-bottom: 4.0em}
+*//* padding-bottom leaves room for the submit buttons. */
                                                                            /* Apply it to the div because applying it to the     */
                                                                            /* fieldset does not work in all browsers (eg Safari) */
-#form_edit_users label{
+/*#form_edit_users label{
     display: block; float: left;
     min-height: <?php echo $edit_users_label_height ?>em; 
     width: <?php echo $edit_users_label_width ?>em;  
@@ -709,15 +714,17 @@ form#form_edit_users {width: auto; margin-top: 2.0em}
 #form_edit_users p {display: block; float: left; clear: left; padding: 0.5em 0 0.7em 0; margin: 0;
                     width: <?php echo $edit_users_label_width + $edit_users_gap + $edit_users_input_width + 5?>em}
 #form_edit_users ul {clear: left}
+*/
+/*
 #form_edit_users input.submit {right: 2.0em}                                   /* and put the OK on the right     */
-#form_delete_users input.submit {left: 2.0em}                                  /* and put the Delete on the left */
-#form_edit_users input.checkbox {width: auto; margin-left: <?php echo $edit_users_gap ?>em}
+/*#form_delete_users input.submit {left: 2.0em}                                  /* and put the Delete on the left */
+/*#form_edit_users input.checkbox {width: auto; margin-left: <?php echo $edit_users_gap ?>em}
 form.edit_users_error {width: 10em; margin-top: 2.0em}
-div#user_list {padding: 2em 0}
+*//*div#user_list {padding: 2em 0}
 form#add_new_user {margin-left: 1em}
 #users_table td {text-align: right}
 #users_table td div.string {text-align: left}
-
+*/
 
 
 /* ------------ FUNCTIONS.INC -------------------*/
@@ -915,4 +922,12 @@ div#check_tabs {background-image: none}
 }
 .ui-widget-header{
     color:
+}
+.navbar-form{
+    padding-left:5px;
+    padding-right:5px;
+}
+
+.pager li>a:hover, .pager li>a:focus{
+    background-color:#208831;
 }

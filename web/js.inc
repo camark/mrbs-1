@@ -63,6 +63,8 @@ else
 <script type="text/javascript" src="jquery/ui/jquery-ui-i18n.MRBS.js"></script>
 
 <script src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="jquery/jquery-timepicker/jquery.timepicker.min.js"></script>
+
 <?php // Work out if we're using IE6 or below ?>
 <script type="text/javascript">
   //<![CDATA[

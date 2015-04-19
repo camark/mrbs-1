@@ -167,9 +167,10 @@ function generateLastSlotSelect()
   var id = 'area_eveningends_t';
   var label = $('<label>').attr('for', id)
                           .text('<?php echo get_vocab("area_last_slot_start")?>:');
+    console.log(label);
   var select = $('<select>').attr('id', id)
-                            .attr('name', id);
-                            
+                            .attr('name', id)
+                            .addClass('form-control');
   for (var t=firstSlot; t <= lastPossible; t += resMins)
   {
     tCorrected = t % minsPerDay;  <?php // subtract one day if past midnight?>
@@ -186,9 +187,14 @@ function generateLastSlotSelect()
   <?php // and make the selected option the new last slot value ?>
   select.val(lastSlot);
   <?php // finally, replace the contents of the <div> with the new <select> ?>
+  /*wrap the label with bootstrap class*/
+  label.addClass('control-label col-md-2');
+  SelectWrapper = $("<div>").addClass("col-md-10");
+                SelectWrapper.append(select);
+    select.addClass('form-control');
   $('#last_slot').empty()
                  .append(label)
-                 .append(select)
+                 .append(SelectWrapper)
                  .css('visibility', 'visible');
 }
 
@@ -225,7 +231,7 @@ init = function() {
   // so that the inputs are enabled/disabled correctly initially.
   ?>
   $('.enabler').change(function(){
-      $(this).nextAll('input, select').attr('disabled', !$(this).is(':checked'));
+      $(this).parent('span').nextAll('input, select').attr('disabled', !$(this).is(':checked'));
     })
     .change();
     

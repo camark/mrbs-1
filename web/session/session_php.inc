@@ -307,6 +307,10 @@ function PrintLogonBoxOnly()
         // words 'you are xxxx' becomes a link to the
         // report page with only entries created by xxx. Past entries are not
         // displayed but this can be changed
+        $search_string = "report.php?from_day=$day&amp;from_month=$month&amp;".
+            "from_year=$year&amp;to_day=1&amp;to_month=12&amp;to_year=2030&amp;areamatch=&amp;".
+            "roommatch=&amp;namematch=&amp;descrmatch=&amp;summarize=1&amp;sortby=r&amp;display=d&amp;".
+            "sumby=d&amp;creatormatch=".urlencode($user);
     ?>
         <form method="post" action="admin.php"   class="navbar-form navbar-right" role="logoff">
             <input type="hidden" name="TargetURL" value="<?php echo htmlspecialchars($TargetURL) ?>">
@@ -314,28 +318,19 @@ function PrintLogonBoxOnly()
             <input type="hidden" name="NewUserName" value="">
             <input type="hidden" name="NewUserPassword" value="">
             <button type="submit" value="<?php echo get_vocab('logoff') ?> "class="btn btn-warning btn-sm">
-                <i class="glyphicon glyphicon-off"></i> <?php echo get_vocab('logoff') ?>
+                <i class="glyphicon glyphicon-log-out"></i> <?php echo get_vocab('logoff') ?> <a class="" href="<?php echo $search_string;?>" title="<?php echo get_vocab('show_my_entries');?>
+             "><?php echo  htmlspecialchars($user) ?></b></a>
             </button>
         </form>
-        <?php
-        $search_string = "report.php?from_day=$day&amp;from_month=$month&amp;".
-            "from_year=$year&amp;to_day=1&amp;to_month=12&amp;to_year=2030&amp;areamatch=&amp;".
-            "roommatch=&amp;namematch=&amp;descrmatch=&amp;summarize=1&amp;sortby=r&amp;display=d&amp;".
-            "sumby=d&amp;creatormatch=".urlencode($user);
-        ?>
-            <p class="navbar-text navbar-right">
-            <a class="" href="<?php echo $search_string;?>" title="<?php echo get_vocab('show_my_entries');?>
-             "><?php echo  htmlspecialchars($user) ?></b></a></p>
     <?php } else {
         ?>
         <form method="post" action="admin.php"  class="navbar-form navbar-right" role="login">
-                <input type="hidden" name="TargetURL" value="<?php echo htmlspecialchars($TargetURL) ?>">
-                <input type="hidden" name="Action" value="QueryName">
-                <button type="submit" value="  " class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-off"></i> <?php echo get_vocab('login') ?>
-                </button>
+            <input type="hidden" name="TargetURL" value="<?php echo htmlspecialchars($TargetURL) ?>">
+            <input type="hidden" name="Action" value="QueryName">
+            <button type="submit" value="  " class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-log-in"></i> <?php echo get_vocab('login') ?>
+            </button>
         </form>
-    <?php
-        }
+    <?php }
     }
 
 function userlistURL(){

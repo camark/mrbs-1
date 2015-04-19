@@ -113,59 +113,59 @@ if (isset($area))
                   // If there are some areas displayable, then show the area form
                   ?>
                 <form class="form-inline" id="areaChangeForm" method="get" action="<?php echo  htmlspecialchars(basename($PHP_SELF));?>">
-                <?php
-                // The area selector
-                ?>
-                 <div class="form-group">
-                    <label for="area_select" control-label"><?php echo get_vocab("area"); ?>:</label>
-                    <select name="area" id="area_select" class="room_area_select form-control" onchange="this.form.submit()">
+                <?php // The area selector ?>
+                    <div class="form-group">
+                        <label for="area_select" control-label"><?php echo get_vocab("area"); ?>:</label>
+                        <select name="area" id="area_select" class="room_area_select form-control" onchange="this.form.submit()">
                             <?php
-                              if ($is_admin)
-                              {
-                                  if ($areas[0]['disabled'])
+                            if ($is_admin)
+                            {
+                                if ($areas[0]['disabled'])
+                                {
+                                  $done_change = TRUE;
+                                  echo "<optgroup label=\"" . get_vocab("disabled") . "\">\n";
+                                }
+                                else
+                                {
+                                  $done_change = FALSE;
+                                  echo "<optgroup label=\"" . get_vocab("enabled") . "\">\n";
+                                }
+                            }
+                            foreach ($areas as $a)
+                            {
+                                if ($is_admin || !$a['disabled'])
+                                {
+                                  if ($is_admin && !$done_change && $a['disabled'])
                                   {
-                                      $done_change = TRUE;
+                                      echo "</optgroup>\n";
                                       echo "<optgroup label=\"" . get_vocab("disabled") . "\">\n";
+                                      $done_change = TRUE;
                                   }
-                                  else
-                                  {
-                                      $done_change = FALSE;
-                                      echo "<optgroup label=\"" . get_vocab("enabled") . "\">\n";
-                                  }
-                              }
-                              foreach ($areas as $a)
-                              {
-                                  if ($is_admin || !$a['disabled'])
-                                  {
-                                      if ($is_admin && !$done_change && $a['disabled'])
-                                      {
-                                          echo "</optgroup>\n";
-                                          echo "<optgroup label=\"" . get_vocab("disabled") . "\">\n";
-                                          $done_change = TRUE;
-                                      }
-                                      $selected = ($a['id'] == $area) ? "selected=\"selected\"" : "";
-                                      echo "<option $selected value=\"". $a['id']. "\">" . htmlspecialchars($a['area_name']) . "</option>";
-                                  }
-                              }
-                              if ($is_admin)
-                              {
-                                  echo "</optgroup>\n";
-                              }
+                                  $selected = ($a['id'] == $area) ? "selected=\"selected\"" : "";
+                                  echo "<option $selected value=\"". $a['id']. "\">" . htmlspecialchars($a['area_name']) . "</option>";
+                                }
+                            }
+                            if ($is_admin)
+                            {
+                              echo "</optgroup>\n";
+                            }
                             ?>
                          </select>
+                    </div>
+
                     <?php // Some hidden inputs for current day, month, year ?>
-                    <input type="hidden" name="day" value="<?php echo $day;?>">
-                    <input type="hidden" name="month" value="<?php echo $month;?>">
-                    <input type="hidden" name="year"  value="<?php echo $year;?>">
-                     <!--     // The change area button (won't be needed or displayed if JavaScript is enabled) -->
-                     <button type="submit" name="change" class="js_node btn-sm btn btn-primary" value=""<?php echo get_vocab("change")?>"><?php echo get_vocab("change")?></button>
-                    <?php
-                    // If they're an admin then give them edit and delete buttons for the area
-                    // and also a form for adding a new area
-                    if ($is_admin)
-                    {
-                        // Can't use <button> because IE6 does not support those properly
-                    ?>
+                        <input type="hidden" name="day" value="<?php echo $day;?>">
+                        <input type="hidden" name="month" value="<?php echo $month;?>">
+                        <input type="hidden" name="year"  value="<?php echo $year;?>">
+                         <!--     // The change area button (won't be needed or displayed if JavaScript is enabled) -->
+                         <button type="submit" name="change" class="js_node btn-sm btn btn-primary" value=""<?php echo get_vocab("change")?>"><?php echo get_vocab("change")?></button>
+                        <?php
+                        // If they're an admin then give them edit and delete buttons for the area
+                        // and also a form for adding a new area
+                        if ($is_admin)
+                        {
+                            // Can't use <button> because IE6 does not support those properly
+                        ?>
 
                         <div class="btn-group">
                             <input type="image" class="button btn btn-default btn-primary"  name="edit" src="images/edit.png"/>
@@ -173,13 +173,11 @@ if (isset($area))
                             title="<?php echo get_vocab('delete'); ?>"/>
                         </div>
                         <?php
-                    }
-                    ?>
-                  </div>
+                        }
+                        ?>
                 </form>
-                  <?php
-
-              }
+                <?php
+                }
             }
             echo "</div>";
             ?>
@@ -196,8 +194,8 @@ if (isset($area))
                       <label for="area_name" class="control-label"><?php echo get_vocab("addarea") ?>:</label>
                       <input class="form-control" type="text" id="area_name" name="name" maxlength="<?php echo $maxlength['area.area_name'] ?>"
                              placeholder="<?php echo get_vocab("addarea") ?>">
-                      <button type="submit" class="submit btn-success btn btn-sm" value=""><?php echo get_vocab("addarea") ?></button>
                   </div>
+                  <button type="submit" class="submit btn-success btn btn-sm" value=""><?php echo get_vocab("addarea") ?></button>
               </form>
         </div>
 
@@ -449,13 +447,13 @@ if ($is_admin || ($n_displayable_areas > 0))
                     <input type="hidden" name="area" value="<?php echo $area; ?>">
                     <div class="row">
                         <div class="col-sm-6 col-md-6 col-lg-6">
-                            <div class="input-group">
+                            <div class="input-group form-group">
                                 <span class="input-group-addon" id="name_label"><?php echo get_vocab("name") ?></span>
                                 <input class="form-control" type="text" id="room_name" name="name" maxlength="<?php echo $maxlength['room.room_name'] ?>" aria-describedby="name_label">
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6">
-                            <div class="input-group">
+                            <div class="input-group  form-group">
                                 <span class="input-group-addon" id="room.description"><?php echo get_vocab("description") ?></span>
                                 <input type="text" class="form-control" placeholder="Room Description" aria-describedby="room.description" id="room_description" name="description" maxlength="<?php echo $maxlength['room.description'] ?>">
                             </div>
@@ -464,22 +462,18 @@ if ($is_admin || ($n_displayable_areas > 0))
                     </div>
                     <div class="row">
                         <div class="col-sm-6 col-md-6 col-lg-6">
-                            <div class="input-group">
+                            <div class="input-group  form-group">
                                 <span class="input-group-addon" id="room_capacity"><?php echo get_vocab("capacity") ?></span>
                                 <input type="text" class="form-control" placeholder="Room Capacity" aria-describedby="room_capacity" id="room_capacity" name="capacity" maxlength="<?php echo $maxlength['room.description'] ?>">
                             </div>
 
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6">
-                            <div class="btn-group">
+                            <div class="btn-group  form-group">
                                 <button type="submit" class="submit btn-primary btn"><?php echo get_vocab("addroom") ?></button>
                             </div>
                         </div>
                     </div>
-
-
-
-
                 </form>
             </div>
         </div>

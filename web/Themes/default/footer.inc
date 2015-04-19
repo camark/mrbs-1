@@ -4,10 +4,10 @@
 function print_theme_footer()
 {
 ?>
+                </div> <!-- end of container -->
             </div> <!-- end of row -->
-        </div> <!-- end of container -->
-   </div>
-  </body>
+        </div>
+    </body>
 </html>
 <?php
 

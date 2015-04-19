@@ -13,25 +13,27 @@ function generate_search_criteria(&$vars)
   global $report_search_field_order;
   
   echo "<fieldset>\n";
-  echo "<legend>" . get_vocab("search_criteria") . "</legend>\n";
+  echo "<legend class='text-uppercase text-center'>" . get_vocab("search_criteria") . "</legend>\n";
   
   foreach ($report_search_field_order as $key)
   {
     switch ($key)
     {
       case 'report_start':
-        echo "<div id=\"div_report_start\">\n";
-        echo "<label>" . get_vocab("report_start") . ":</label>\n";
+        echo "<div id=\"div_report_start\" class='clearfix form-group'>\n";
+        echo "<label class='control-label col-md-2'>" . get_vocab("report_start") . ":</label>\n";
+        echo '<div class="col-md-10">';
         genDateSelector("from_", $vars['from_day'], $vars['from_month'], $vars['from_year']);
-        echo "</div>\n";
+        echo "</div></div>\n";
         break;
       
         
       case 'report_end':  
-        echo "<div id=\"div_report_end\">\n";
-        echo "<label>" . get_vocab("report_end") . ":</label>\n";
+        echo "<div id=\"div_report_end\" class='clearfix form-group'>\n";
+        echo "<label class='control-label col-md-2' >" . get_vocab("report_end") . ":</label>\n";
+        echo '<div class="col-md-10">';
         genDateSelector("to_", $vars['to_day'], $vars['to_month'], $vars['to_year']);
-        echo "</div>\n";
+        echo "</div></div>\n";
         break;
       
         
@@ -42,7 +44,7 @@ function generate_search_criteria(&$vars)
           trigger_error(sql_error(), E_USER_WARNING);
           fatal_error(FALSE, get_vocab("fatal_db_error"));
         }
-        echo "<div id=\"div_areamatch\">\n";
+        echo "<div id=\"div_areamatch\" class='form-group clearfix'>\n";
         $params = array('label'         => get_vocab("match_area") . ':',
                         'name'          => 'areamatch',
                         'options'       => $options,
@@ -62,7 +64,7 @@ function generate_search_criteria(&$vars)
           trigger_error(sql_error(), E_USER_WARNING);
           fatal_error(FALSE, get_vocab("fatal_db_error"));
         }
-        echo "<div id=\"div_roommatch\">\n";
+        echo "<div id=\"div_roommatch\" class='form-group clearfix'>\n";
         $params = array('label'         => get_vocab("match_room") . ':',
                         'name'          => 'roommatch',
                         'options'       => $options,
@@ -74,7 +76,7 @@ function generate_search_criteria(&$vars)
       
         
       case 'typematch':  
-        echo "<div id=\"div_typematch\">\n";
+        echo "<div id=\"div_typematch\" class='form-group clearfix'>\n";
         $options = array();
         foreach ($booking_types as $type)
         {
@@ -95,7 +97,7 @@ function generate_search_criteria(&$vars)
       
         
       case 'namematch':  
-        echo "<div id=\"div_namematch\">\n";
+        echo "<div id=\"div_namematch\" class='form-group clearfix'>\n";
         $params = array('label' => get_vocab("match_entry") . ':',
                         'name'  => 'namematch',
                         'value' => $vars['namematch']);
@@ -105,7 +107,7 @@ function generate_search_criteria(&$vars)
       
         
       case 'descrmatch':
-        echo "<div id=\"div_descrmatch\">\n";
+        echo "<div id=\"div_descrmatch\" class='form-group clearfix'>\n";
         $params = array('label' => get_vocab("match_descr") . ':',
                         'name'  => 'descrmatch',
                         'value' => $vars['descrmatch']);
@@ -115,7 +117,7 @@ function generate_search_criteria(&$vars)
   
       
       case 'creatormatch':
-        echo "<div id=\"div_creatormatch\">\n";
+        echo "<div id=\"div_creatormatch\" class='form-group clearfix'>\n";
         $params = array('label' => get_vocab("createdby") . ':',
                         'name'  => 'creatormatch',
                         'value' => $vars['creatormatch']);
@@ -139,7 +141,7 @@ function generate_search_criteria(&$vars)
           // Otherwise give them the radio buttons
           else
           {
-            echo "<div id=\"div_privacystatus\">\n";
+            echo "<div id=\"div_privacystatus\" class='form-group clearfix'>\n";
             $options = array(PRIVATE_BOTH => get_vocab("both"), PRIVATE_NO => get_vocab("default_public"), PRIVATE_YES => get_vocab("default_private"));
             $params = array('label'       => get_vocab("privacy_status") . ':',
                             'name'        => 'match_private',
@@ -158,7 +160,7 @@ function generate_search_criteria(&$vars)
         // Only show this part of the form if there are areas that require approval
         if ($confirmation_somewhere)
         {
-          echo "<div id=\"div_confirmationstatus\">\n";
+          echo "<div id=\"div_confirmationstatus\" class='form-group clearfix'>\n";
           $options = array(CONFIRMED_BOTH => get_vocab("both"), CONFIRMED_YES => get_vocab("confirmed"), CONFIRMED_NO => get_vocab("tentative"));
           $params = array('label'       => get_vocab("confirmation_status") . ':',
                           'name'        => 'match_confirmed',
@@ -176,7 +178,7 @@ function generate_search_criteria(&$vars)
         // Only show this part of the form if there are areas that require approval
         if ($approval_somewhere)
         {
-          echo "<div id=\"div_approvalstatus\">\n";
+          echo "<div id=\"div_approvalstatus\" class='form-group clearfix'>\n";
           $options = array(APPROVED_BOTH => get_vocab("both"), APPROVED_YES => get_vocab("approved"), APPROVED_NO => get_vocab("awaiting_approval"));
           $params = array('label'       => get_vocab("approval_status") . ':',
                           'name'        => 'match_approved',
@@ -248,7 +250,7 @@ function generate_presentation_options(&$vars)
     switch ($key)
     {
       case 'output':
-        echo "<div id=\"div_output\">\n";
+        echo "<div id=\"div_output\" class='form-group clearfix'>\n";
         $buttons = array(REPORT  => get_vocab('report'),
                          SUMMARY => get_vocab('summary'));
         $params = array('label'       => get_vocab('output') . ":",
@@ -281,7 +283,7 @@ function generate_presentation_options(&$vars)
         
 
       case 'sortby':
-        echo "<div id=\"div_sortby\">\n";
+        echo "<div id=\"div_sortby\" class='form-group clearfix'>\n";
         $options = array('r' => get_vocab("sort_room"),
                          's' => get_vocab("sort_rep_time"));
         $params = array('label'   => get_vocab("sort_rep") . ':',
@@ -294,7 +296,7 @@ function generate_presentation_options(&$vars)
 
         
       case 'sumby':
-        echo "<div id=\"div_sumby\">\n";
+        echo "<div id=\"div_sumby\" class='form-group clearfix'>\n";
         $options = array('d' => get_vocab("sum_by_descrip"),
                          'c' => get_vocab("sum_by_creator"),
                          't' => get_vocab("sum_by_type"));
@@ -320,9 +322,10 @@ function generate_presentation_options(&$vars)
 
 function generate_submit_buttons()
 {
-  echo "<div id=\"report_submit\">\n";
+  echo "<div id=\"report_submit\" class='form-group clearfix text-center    '>\n";
+  echo "<hr>";
   echo "<input type=\"hidden\" name=\"phase\" value=\"2\">\n";
-  echo "<input class=\"submit\" type=\"submit\" value=\"" . get_vocab("submitquery") . "\">\n";
+  echo "<input class=\"submit btn btn-primary\" type=\"submit\" value=\"" . get_vocab("submitquery") . "\">\n";
   echo "</div>\n";
 }
 
@@ -523,7 +526,7 @@ function open_summary()
   
   if ($output_format == OUTPUT_HTML)
   {
-    echo "<div id=\"div_summary\" class=\"js_hidden\">\n";
+    echo "<div id=\"div_summary\" class=\"js_hidden\"  class='form-group clearfix'>\n";
     echo "<h1>";
     if ($times_somewhere)
     {
@@ -1454,12 +1457,14 @@ else
 if ($output_form)
 {
 
-  echo "<div class=\"screenonly\">\n";
- 
-  echo "<form class=\"form_general\" id=\"report_form\" method=\"get\" action=\"report.php\">\n";
-  echo "<fieldset>\n";
-  echo "<legend>" . get_vocab("report_on") . "</legend>\n";
-  
+  ?>
+<div class="screenonly>
+
+  <form class="form_general form-horizontal" id="report_form" method="get" action="report.php">
+  <div class="form-group">
+    <legend class='text-center text-uppercase'><i class="fa fa-file-excel-o fa-2x"></i><?php echo get_vocab("report_on");?></legend>
+  </div>
+  <?php
   // Do the search criteria fieldset
   $search_var_keys = array('from_day', 'from_month', 'from_year',
                            'to_day', 'to_month', 'to_year',
@@ -1472,6 +1477,7 @@ if ($output_form)
   {
     $search_vars[$var] = $$var;
   }
+
   generate_search_criteria($search_vars);
   
   // Then the presentation options fieldset

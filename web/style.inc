@@ -10,10 +10,12 @@ global $using_rtl, $refresh_rate, $custom_css_url, $PHP_SELF;
     <link href="jquery/datatables/css/mrbs-table.css" rel="stylesheet" type="text/css">
     <link href="jquery/datatables/css/ColReorder.css" rel="stylesheet" type="text/css">
     <link href="jquery/datatables/css/ColVis.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="css/mrbs.css.php" type="text/css">
 
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="css/mrbs.css.php" type="text/css">
+    <link rel="stylesheet" href="jquery/jquery-timepicker/jquery.timepicker.css"/>
+    <link rel="stylesheet" href="Font-Awesome/css/font-awesome.min.css"/>
     <?php
     if ($using_rtl)
     {
